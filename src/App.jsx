@@ -37,7 +37,7 @@ export default function App() {
         <Route path="/termos" element={<Terms />} />
         <Route path="/privacidade" element={<Privacy />} />
         <Route path="/entrar" element={session ? <Navigate to="/" /> : <Login />} />
-        <Route path="/admin" element={!session ? <Navigate to="/entrar" /> : isAdmin ? <Admin /> : <Navigate to="/" />} />
+        <Route path="/admin" element={!session ? <Navigate to="/entrar" /> : isAdmin ? <Admin /> : <NoAccess email={session.user.email} />} />
         <Route path="/" element={
           !session ? <Navigate to="/entrar" /> :
           needsOnboarding ? <Onboarding profile={profile} onDone={() => loadProfile(session)} /> :
@@ -49,6 +49,17 @@ export default function App() {
   )
 }
 
+function NoAccess({ email }) {
+  return (
+    <section className="card narrow">
+      <p className="eyebrow">Área de gestão</p>
+      <h1>Sem acesso</h1>
+      <p className="lead">A sessão atual é <strong>{email}</strong> e este email não está na lista de administradores da Huint. Saia e entre com o email autorizado.</p>
+      <Link className="btn" to="/">Voltar às minhas indicações</Link>
+    </section>
+  )
+}
+
 function Shell({ children, session, isAdmin }) {
   const nav = useNavigate()
   return (
@@ -57,6 +68,7 @@ function Shell({ children, session, isAdmin }) {
         <Link to="/" className="brand">huint<sup>®</sup> <span className="brand-sub">Indicações</span></Link>
         {session && (
           <nav>
+            <span className="who">{session.user.email}</span>
             {isAdmin && <Link to="/admin">Gestão</Link>}
             <button className="link" onClick={async () => { await supabase.auth.signOut(); nav('/entrar') }}>Sair</button>
           </nav>
