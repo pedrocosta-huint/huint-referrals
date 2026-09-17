@@ -83,3 +83,4 @@ tr.detail td{background:rgba(255,255,255,.02)}
 .prose strong{color:var(--text);font-weight:500}
 .prose li{margin-bottom:6px}
 @media (max-width:760px){.grid,.detail-grid{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}.brand{font-size:24px}.brand-sub{display:none}.top nav a,.link{padding:8px 12px}}
+.who{font-size:13px;color:var(--muted);padding:8px 10px;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
